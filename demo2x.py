@@ -15,7 +15,7 @@ video_name = 'test2'
 video_name = 'lane'
 camera_url='http://camera.thongtingiaothong.vn/s/56de42f611f398ec0c481287/index.m3u8'
 
-camera_url='https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8'
+#camera_url='https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8'
 
 video = cv2.VideoCapture(camera_url)
 
