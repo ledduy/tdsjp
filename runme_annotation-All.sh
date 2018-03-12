@@ -6,5 +6,6 @@
 ./runme_annotation.sh 20180224_03
 ./runme_annotation.sh 20180306_01
 ./runme_annotation.sh 20180306_03
+./runme_annotation.sh 20180306_02
 
 

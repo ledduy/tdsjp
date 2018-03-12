@@ -83,6 +83,13 @@ if not os.path.exists(kfPath):
 
 samplingRate = 5 # 5fps
 
+vidName = '20180306_02'
+vidExt = 'avi'
+
+doKFExtraction(vidName, vidExt, vidPath, kfPath, samplingRate)
+
+quit()
+
 vidName = '20180224_01'
 vidExt = 'avi'
 
