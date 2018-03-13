@@ -2,9 +2,9 @@
 
 # download videos for development
 
-mkdir -p ~/mbase/tdsjp/video
+mkdir -p /home/mmlab/mbase/tdsjp/video
 
-cd ~/mbase/tdsjp/video
+cd /home/mmlab/mbase/tdsjp/video
 
 wget --no-chepk-certificate https://mbase.co.jp/tmp/drive.mp4
 wget --no-check-certificate https://mbase.co.jp/tmp/MAH00019.MP4
