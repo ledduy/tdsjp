@@ -62,9 +62,10 @@ foreach($arLabels as $labelName)
             // noparking/MAH00019-058720.jpg 1 685 325 76 79
 
             $arTmp = explode(' ', $szLine);
-            $arAll2[] = trim($arTmp[0]); 
+            $arAll2[] = sprintf("%s/%s"
+, $szTrial1, trim($arTmp[0])); 
     
-            $arAll[] = $szLine;
+            $arAll[] = sprintf("%s", $szLine);
 
             $arTmp = explode('/', $szLine);
 
@@ -87,10 +88,10 @@ foreach($arLabels as $labelName)
 
     }
 
-    $szFileName = sprintf("%s.dat", $labelName);
+    $szFileName = sprintf("%s/%s.dat", $szTrial1, $labelName);
     saveDataFromMem2File($arAll, $szFileName);
 
-    $szFileName = sprintf("%s.dat2", $labelName);
+    $szFileName = sprintf("%s/%s.dat2", $szTrial1, $labelName);
     saveDataFromMem2File($arAll2, $szFileName);
 
     //break;
