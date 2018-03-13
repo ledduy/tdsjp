@@ -10,8 +10,8 @@ POS_INPUTFILE=$TRIAL_NAME/$LABEL_NAME.dat
 
 # max positive samples --> parse errorDone. neu so luong khac voi so luong thuc te
 NUM_POS=10000
-WIDTH=40
-HEIGHT=40
+WIDTH=30
+HEIGHT=30
 
 opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
 
@@ -29,7 +29,7 @@ BG_FILE=$TRIAL_NAME/neg-noparking.dat2
 NUM_POS=600
 NUM_NEG=600
 NUM_STAGES=10
-MIN_HIT_RATE=0.999
-MAX_FA_RATE=0.3
+MIN_HIT_RATE=0.997
+MAX_FA_RATE=0.4
 
-opencv_traincascade -data $DETECTOR_DIR -vec $POS_OUTPUTFILE -bg $BG_FILE -numPos $NUM_POS -numNeg $NUM_NEG -numStages $NUM_STAGES -w $WIDTH  -h  $HEIGHT -minHitRate $MIN_HIT_RATE -maxFalseAlarmRate $MAX_FA_RATE -precalcValBufSize 16000 -precalcIdxBufSize 16000
+opencv_traincascade -data $DETECTOR_DIR -vec $POS_OUTPUTFILE -bg $BG_FILE -numPos $NUM_POS -numNeg $NUM_NEG -numStages $NUM_STAGES -w $WIDTH  -h  $HEIGHT -minHitRate $MIN_HIT_RATE -maxFalseAlarmRate $MAX_FA_RATE -precalcValBufSize 10000 -precalcIdxBufSize 10000
