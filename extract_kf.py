@@ -3,6 +3,7 @@
 
 import cv2
 import os
+import sys
 
 # output keyframe dir = vidName
 # keyframe file name = videoName-frameID.jpg
@@ -83,6 +84,26 @@ if not os.path.exists(kfPath):
 
 samplingRate = 5 # 5fps
 
+if (len(sys.argv) != 3):
+    print('### Usage: {} videoName videoExt'.format(sys.argv[0]))
+    print('### Usage: {} MAH00019 mp4'.format(sys.argv[0]))
+    quit()
+    
+vidName = sys.argv[1] # 'MAH00019'
+vidExt = sys.argv[2] # 'mp4'
+
+doKFExtraction(vidName, vidExt, vidPath, kfPath, samplingRate)
+
+quit()
+'''
+
+
+vidName = 'MAH00019'
+vidExt = 'mp4'
+
+doKFExtraction(vidName, vidExt, vidPath, kfPath, samplingRate)
+
+quit();
 
 vidName = '20180224_01'
 vidExt = 'avi'
@@ -115,11 +136,6 @@ vidExt = 'mp4'
 
 doKFExtraction(vidName, vidExt, vidPath, kfPath, samplingRate)
 
-vidName = 'MAH00019'
-vidExt = 'MP4'
-
-doKFExtraction(vidName, vidExt, vidPath, kfPath, samplingRate)
-
 vidName = 'traffic_sign_video2802'
 vidExt = 'avi'
 
@@ -130,5 +146,7 @@ vidName = '20180306_02'
 vidExt = 'avi'
 
 doKFExtraction(vidName, vidExt, vidPath, kfPath, samplingRate)
+'''
+
 
 
