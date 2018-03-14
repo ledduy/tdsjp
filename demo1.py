@@ -26,6 +26,9 @@ video_name = 'drive'
 video_name = 'MAH00019'
 video_name = 'test2'
 camera_url='../../media/%s.mp4' % video_name
+
+
+camera_url = '/Users/ledduy/Downloads/MAH00019.MP4'
 video = cv2.VideoCapture(camera_url)
 
 frame_w =video.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -33,24 +36,9 @@ frame_h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
 legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
-model_list = {'no_parking' : 
-'../../media/no_parking_cascade.xml'
-, 'speed_limit_50' : '../../media/speed_limit_50_cascade.xml', 'merge_line'
- : '../../media/traffic_merge_from_the_right_cascade.xml'
-
-
+model_list = {'noparking' :
+'Train1/noparking-DETECTOR/cascade.xml'
 }
-
-
-model_list = {'no_parking' : 
-'../../media/enrich/no_parking_cascade.xml'
-, 'speed_limit_50' : '../../media/enrich/speed_limit_50_cascade.xml', 'merge_line'
- : '../../media/enrich/traffic_merge_from_the_right_cascade.xml'
-
-
-}
-
-
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 cnt = 0
@@ -91,4 +79,3 @@ while(True):
 # When everything done, release the capture
 video.release()
 cv2.destroyAllWindows()
-
