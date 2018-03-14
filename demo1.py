@@ -70,7 +70,7 @@ while(True):
 
         if all_cnt > 0:
             output_file = '%s-%s.jpg' % (video_name, output_text)
-            cv2.imwrite(output_file, frame)
+            #cv2.imwrite(output_file, frame)
 
         cv2.imshow('Demo TDS', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
