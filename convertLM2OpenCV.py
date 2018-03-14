@@ -59,7 +59,10 @@ for file in glob.glob(os.path.join(folder,'*.xml')):
                     sub_bounding[1] = bounding_y[0]
                     sub_bounding[2] = str(abs(int(bounding_x[1]) - int(bounding_x[0])))
                     sub_bounding[3] = str(abs(int(bounding_y[3]) - int(bounding_y[0])))
-                    bounding.append([sub_bounding,label_name])
+                    
+                    # min size is (30,30)
+                    if(sub_bounding[2] >= 30) and (sub_bounding[3]>=30):
+                        bounding.append([sub_bounding,label_name])
                     #print(bounding[-1])
     if count != 0:
         dt.append([name,count, bounding])
