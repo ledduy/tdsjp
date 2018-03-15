@@ -1,8 +1,6 @@
 #written by DuyLD
 
-from skimage import io
 import cv2
-import matplotlib.pyplot as plt
 
 
 def detect(tds_classifier_xml, frame, gray_img, sign_name):
@@ -25,10 +23,12 @@ def detect(tds_classifier_xml, frame, gray_img, sign_name):
 video_name = 'drive'
 video_name = 'MAH00019'
 video_name = 'test2'
-camera_url='../../media/%s.mp4' % video_name
 
 
-camera_url = '/Users/ledduy/Downloads/MAH00019.MP4'
+camera_url = 'C:/Users/ledduy/tdsjp/video/MAH00019.MP4'
+
+#camera_url = '/home/ledduy/tdsjp/video/MAH00019.MP4'
+
 video = cv2.VideoCapture(camera_url)
 
 frame_w =video.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -37,7 +37,7 @@ legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
 model_list = {'noparking' :
-'Train1/noparking-DETECTOR/cascade.xml'
+'C:/Users/ledduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
 }
 
 font = cv2.FONT_HERSHEY_SIMPLEX
