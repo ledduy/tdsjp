@@ -20,12 +20,10 @@ def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
    return frame, cnt
 
-video_name = 'drive'
 video_name = 'MAH00019'
-video_name = 'test2'
 
-
-camera_url = 'C:/Users/ledduy/tdsjp/video/MAH00019.MP4'
+camera_url = '/Users/ledinhduy/tdsjp/video/MAH00019.mp4'
+#camera_url = '/Users/ledinhduy/tdsjp/video/20180224_02.avi'
 
 #camera_url = '/home/ledduy/tdsjp/video/MAH00019.MP4'
 
@@ -37,13 +35,19 @@ legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
 model_list = {'noparking' :
-'C:/Users/ledduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
+#'C:/Users/ledduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
+#'/Users/ledinhduy/tdsjp/code/TrainBS/noparking-DETECTOR/cascade.xml'
+'/Users/ledinhduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
 }
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 cnt = 0
 frame_id = 0
 frame_rate = 10
+
+nCount = 0;
+nSkip = 1400
+cntx = 0
 while(True):
     # Capture frame-by-frame
     ret, frame = video.read()
@@ -53,6 +57,10 @@ while(True):
     cnt = cnt + 1
     frame_id = frame_id + 1
 
+    cntx +=1 
+    if (cntx < nSkip):
+        continue
+    
     if (cnt % frame_rate == 0):
         cnt = 0
         gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -70,7 +78,11 @@ while(True):
 
         if all_cnt > 0:
             output_file = '%s-%s.jpg' % (video_name, output_text)
-            #cv2.imwrite(output_file, frame)
+            
+            nCount += 1
+            if(nCount <= 50):
+                cv2.imwrite('../tmp/{}'.format(output_file), frame)
+            
 
         cv2.imshow('Demo TDS', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
