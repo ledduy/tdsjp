@@ -15,7 +15,7 @@ NUM_POS=10000
 WIDTH=30
 HEIGHT=30
 
-#opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
+opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
 
 # show samples from vec file
 # showvec $POS_OUTPUTFILE
@@ -34,9 +34,9 @@ BG_FILE2=$TRIAL_NAME/neg-noparkingx.dat2
 #cat $BF_FILE1 $BF_FILE2 > $BG_FILE
 
 # so luong POS phai <= so luong thuc su trong file .vec
-NUM_POS=620 #600
-NUM_NEG=620 #600
-NUM_STAGES=20 #20
+NUM_POS=600 #600
+NUM_NEG=600 #600
+NUM_STAGES=25 #20
 MIN_HIT_RATE=0.999
 MAX_FA_RATE=0.4
 
