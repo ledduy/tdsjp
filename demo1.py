@@ -20,7 +20,8 @@ def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
    return frame, cnt
 
-video_name = 'MAH00019'
+video_name = 'MAH00019-BS'
+#video_name = '20180224_02'
 
 camera_url = '/Users/ledinhduy/tdsjp/video/MAH00019.mp4'
 #camera_url = '/Users/ledinhduy/tdsjp/video/20180224_02.avi'
@@ -36,8 +37,8 @@ legend_loc_y = int(frame_h*0.1)
 
 model_list = {'noparking' :
 #'C:/Users/ledduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
-#'/Users/ledinhduy/tdsjp/code/TrainBS/noparking-DETECTOR/cascade.xml'
-'/Users/ledinhduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
+'/Users/ledinhduy/tdsjp/code/TrainBS/noparking-DETECTOR/cascade.xml'
+#'/Users/ledinhduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
 }
 
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -46,7 +47,7 @@ frame_id = 0
 frame_rate = 10
 
 nCount = 0;
-nSkip = 1400
+nSkip = 4500
 cntx = 0
 while(True):
     # Capture frame-by-frame
@@ -80,7 +81,7 @@ while(True):
             output_file = '%s-%s.jpg' % (video_name, output_text)
             
             nCount += 1
-            if(nCount <= 50):
+            if(nCount <= 100):
                 cv2.imwrite('../tmp/{}'.format(output_file), frame)
             
 
