@@ -38,6 +38,6 @@ NUM_POS=620 #600
 NUM_NEG=620 #600
 NUM_STAGES=20 #20
 MIN_HIT_RATE=0.999
-MAX_FA_RATE=0.4
+MAX_FA_RATE=0.3
 
 opencv_traincascade -data $DETECTOR_DIR -vec $POS_OUTPUTFILE -bg $BG_FILE -numPos $NUM_POS -numNeg $NUM_NEG -numStages $NUM_STAGES -w $WIDTH  -h  $HEIGHT -minHitRate $MIN_HIT_RATE -maxFalseAlarmRate $MAX_FA_RATE -precalcValBufSize 10000 -precalcIdxBufSize 10000

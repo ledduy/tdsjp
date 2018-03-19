@@ -18,7 +18,7 @@ Les-MacBook-Pro:tdsjp ledinhduy$ scp -r mmlab@192.168.28.68:/var/www/html/LabelM
     Step 2: Copy keyframes having at least one bounding box to trialName/labelName
     Step 3: For neg-noparkingx - crop bounding box image to trialName/labelName
     Step 4: For annotation of positive images --> use trialName/labelName.dat --> noparking/MAH00019-058720.jpg 1 685 325 76 79
-    Steop 5: 
+    Steop 5:
 */
 require_once "kl-IOTools.php";
 
@@ -31,15 +31,14 @@ exec($szCmd);
 
 # run python code
 
-$arLabels = array('noparking', 'neg-noparking', 'neg-noparkingx'
-);
-$arLabelBS = array('neg-noparkingx');
+$arLabels = array('noparking', 'neg-noparking', 'neg-noparkingx');
+$arLabelBS = array('neg-noparkingx', 'neg-noparking');
 //
 $arAllVideos = array('MAH00019', '20180224_01', '20180224_02', '20180224_03', '20180306_01', '20180306_02', '20180306_03', 'traffic_sign_video2802');
 
 $arTrainVideos1 = array('MAH00019', '20180224_01', '20180224_02', '20180306_01', '20180306_03');
-$szTrial1 = 'TrainBS';
-makeDir($szTrial1);
+$szTrial = 'TrainBS';
+makeDir($szTrial);
 
 $arTrainVideos = $arTrainVideos1;
 
@@ -53,7 +52,7 @@ foreach($arLabels as $labelName)
     $arAll = array(); // include bounding box
     $arAll2 = array(); // list of keyframe only
     $arAllCmd = array(); // neg image selected by bootstrapping
-    
+
     printf("### Processing label [%s]\n", $labelName
 );
     //exit();
@@ -66,7 +65,7 @@ foreach($arLabels as $labelName)
         $szFileName = sprintf("%s-%s.dat", $labelName, $videoID);
         loadListFile($arData, $szFileName);
 
-        $imgDir = sprintf("%s/%s", $szTrial1, $labelName);
+        $imgDir = sprintf("%s/%s", $szTrial, $labelName);
         makeDir($imgDir);
 
         // copy positive images to this dir
@@ -75,21 +74,21 @@ foreach($arLabels as $labelName)
             // noparking/MAH00019-058720.jpg 1 685 325 76 79
 
             $arTmp = explode(' ', $szLine);
-            
+
             $szTmpName = trim($arTmp[0]);
 
             $left = intval($arTmp[2]);
             $top = intval($arTmp[3]);
             $width = intval($arTmp[4]);
             $height = intval($arTmp[5]);
-            
+
 
             $arTmp = explode('/', $szLine);
 
             $szTmp = $arTmp[1];
             $arTmpx = explode(' ', $szTmp);
             $imgName = $arTmpx[0];
-            
+
             $imgNameShort = str_replace(".jpg", ""
 , $imgName);
 
@@ -102,18 +101,21 @@ foreach($arLabels as $labelName)
             exec($szCmd);
 
             if(!in_array($labelName, $arLabelBS))
-            { 
-    
+            {
+
                 // use for opencv_createtrainingsamples for vec (positive samples)
-                $arAll[] = sprintf("%s", $szLine);
-                $arAll2[] = sprintf("%s/%s", $szTrial1, $szTmpName); 
-   
+                #$arAll[] = sprintf("%s/%s", $szTrial, $szLine);
+                $arAll[] = sprintf("%s", $szLine);  # duong dan tuong doi noparking/xxx
+
+                // for neg-negative - no bounding box usage
+                //$arAll2[] = sprintf("%s/%s", $szTrial, $szTmpName);
+
             }
             else
             {
                 if(strstr($labelName, 'x'))
                 {
-                   // special treatment for bootstrapping - neg-noparkingx 
+                   // special treatment for bootstrapping - neg-noparkingx
                     // print('Usage {} imageName imageDir x y width height outDir'.format(sys.argv[0]))
                     $outDir = $imgDir;
                     $szParam = sprintf("%s %s %s %s %s %s %s", $imgNameShort, $imgDir, $left, $top, $width, $height, $outDir);
@@ -121,41 +123,43 @@ foreach($arLabels as $labelName)
                     printf("%s\n", $szCmd);
                     $arAllCmd[] = $szCmd;
                     //exec($szCmd);
-    
+
                     // outputfile = '{}/{}-{}-{}-{}-{}-neg.jpg'.format(out_dir, img_name, left, top, width, height)
 
                     $szCropFN = sprintf("%s-%s-%s-%s-%s-neg.jpg", $imgNameShort, $left, $top, $width, $height);
-                    
-                    $arAll2[] = sprintf("%s/%s", $szTrial1, $szCropFN); 
+
+                    $arAll2[] = sprintf("%s/%s/%s", $szTrial, $labelName, $szCropFN);
                 }
                 else
                 {
                     // only filename - no using bounding box
                     // Train1/neg-noparking/imgName
-                    $arAll2[] = sprintf("%s/%s", $szTrial1, $szTmpName); 
-               } 
-                
-            }                
+                    $arAll2[] = sprintf("%s/%s", $szTrial, $szTmpName);
+               }
+
+            }
 
             //break;
             //exit();
         }
-            
-        $szCmd = sprintf("mv %s %s",
-$szFileName, $szTrial1);
+
+        // move to szTrial
+        $szCmd = sprintf("mv %s %s", $szFileName, $szTrial);
         exec($szCmd);
 
     }
 
-    $szFileName = sprintf("%s/%s.dat", $szTrial1, $labelName);
+    $szFileName = sprintf("%s/%s.dat", $szTrial, $labelName);
     saveDataFromMem2File($arAll, $szFileName);
 
-    $szFileName = sprintf("%s/%s.dat2", $szTrial1, $labelName);
+    $szFileName = sprintf("%s/%s.dat2", $szTrial, $labelName);
     saveDataFromMem2File($arAll2, $szFileName);
 
     $szFileName = sprintf("runme4crop-%s.sh", $labelName);
     saveDataFromMem2File($arAllCmd, $szFileName);
     //break;
+
+    // merge neg-noparking and neg-noparkingx
 
 }
 
