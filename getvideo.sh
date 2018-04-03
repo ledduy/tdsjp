@@ -21,8 +21,7 @@ wget --no-check-certificate https://mbase.co.jp/tmp/20180321_13_hc.mts
 wget --no-check-certificate https://mbase.co.jp/tmp/20180321_21_ac.mp4
 wget --no-check-certificate https://mbase.co.jp/tmp/20180321_22_ac.mp4
 
-exit '
-DONE'
+exit 'DONE' 1
 
 
 #wget --no-check-certificate https://mbase.co.jp/tmp/20180313_01.MTS
