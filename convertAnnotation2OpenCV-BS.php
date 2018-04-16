@@ -31,8 +31,7 @@ exec($szCmd);
 
 # run python code
 
-$arLabels = array('noparking', 'neg-noparking', 'neg-noparkingx'
-);
+$arLabels = array('noparking', 'neg-noparking', 'neg-noparkingx');
 $arLabelBS = array('neg-noparkingx');
 //
 $arAllVideos = array('MAH00019', '20180224_01', '20180224_02', '20180224_03', '20180306_01', '20180306_02', '20180306_03', 'traffic_sign_video2802');
@@ -90,8 +89,7 @@ foreach($arLabels as $labelName)
             $arTmpx = explode(' ', $szTmp);
             $imgName = $arTmpx[0];
             
-            $imgNameShort = str_replace(".jpg", ""
-, $imgName);
+            $imgNameShort = str_replace(".jpg", "", $imgName);
 
             $fullPathImg = sprintf("%s/%s/%s", $szKeyFrameDir, $videoID, $imgName);
 
@@ -141,8 +139,7 @@ foreach($arLabels as $labelName)
             //exit();
         }
             
-        $szCmd = sprintf("mv %s %s",
-$szFileName, $szTrial1);
+        $szCmd = sprintf("mv %s %s", $szFileName, $szTrial1);
         exec($szCmd);
 
     }
