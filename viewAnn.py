@@ -5,15 +5,19 @@ import sys
 
 #imgDir = sys.argv[1] # noparking
 #imgName = sys.argv[2] # MAH00019-xxx.jpg
-# noparking/MAH00019-058720.jpg 1 685 325 76 79 
+# noparking/MAH00019-058720.jpg 1 685 325 76 79
+
+# pwd: /Users/ledduy/Documents/GitHub/tdsjp
+# /Users/ledduy/tdsjp/code
+
 
 imgDir = '../../../tdsjp/code/TrainBS'
 
 listFile = '../../../tdsjp/code/TrainBS/noparking.dat'
 
 nFlag = 0
-with open(listFile, "r") as fInput:  
-    for line in fInput: 
+with open(listFile, "r") as fInput:
+    for line in fInput:
         #print(line)
         words = line.split()
         #print(words)
@@ -42,9 +46,9 @@ with open(listFile, "r") as fInput:
             if(keyInput == ord('q')):
                 nFlag = 1
                 break
-        
+
         if (nFlag > 0):
             cv2.destroyAllWindows()
-            quit()    
-        
+            quit()
+
 cv2.destroyAllWindows()
