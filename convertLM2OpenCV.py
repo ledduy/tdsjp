@@ -57,9 +57,11 @@ for file in glob.glob(os.path.join(folder,'*.xml')):
                                     bounding_y.append(cor.text)
                     sub_bounding[0] = bounding_x[0]
                     sub_bounding[1] = bounding_y[0]
-                    sub_bounding[2] = str(abs(int(bounding_x[1]) - int(bounding_x[0])))
-                    sub_bounding[3] = str(abs(int(bounding_y[3]) - int(bounding_y[0])))
-                    
+
+                    # ValueError: invalid literal for int() with base 10
+                    sub_bounding[2] = str(abs(int(float(bounding_x[1])) - int(float(bounding_x[0]))))
+                    sub_bounding[3] = str(abs(int(float(bounding_y[3])) - int(float(bounding_y[0]))))
+
                     # min size is (24,24)
                     if(sub_bounding[2] >= 24) and (sub_bounding[3]>=24):
                         bounding.append([sub_bounding,label_name])
@@ -70,11 +72,11 @@ for file in glob.glob(os.path.join(folder,'*.xml')):
 
 with open(t_name + '-' + videoID +'.dat','w') as info:
     for element in dt:
-        
+
         firstCount = 0  # to handle the case of many bounding box per line
         for bounding_box in element[2]:
             if(firstCount == 0):
-                # noparking/MAH00019-xxx.jpg 
+                # noparking/MAH00019-xxx.jpg
                 temp_str = bounding_box[1] + element[0] + ' ' + str(element[1]) + ' '
                 info.write(temp_str)
                 firstCount = 1
