@@ -5,6 +5,8 @@
     Requirement: keyframes are already extracted
     Step1: Scan keyframe dir to get list of videoID and list of videoID-keyframeID
     Step2: Generate link to annotate using LabelMeTool
+
+    Step3: Check quality of annotations by using viewAnnotation2.php
 */
 
 require_once "kl-IOTools.php";
@@ -40,7 +42,7 @@ $szInputDirName = "/home/mmlab/mbase/tdsjp/keyframe"
 //printf("<P>Scanning dir [%s]\n", $szInputDirName);
 $arDirs = collectDirsInOneDir($szInputDirName);
 
-/* 
+/*
 
 // this code runs ONCE to generate list of keyframes for each videoID
 
@@ -49,12 +51,12 @@ foreach($arDirs as $szDir)
 {
     printf("<P>Collecting files in [%s]\n", $szDir);
     $szFPDir = sprintf("%s/%s", $szInputDirName, $szDir);
-    
+
     //$arList = collectFilesInOneDir($szFPDir);
     //printf("<BR>Num files: [%d]\n", size($arList));
-    
+
     $szFPOutputFN = sprintf("%s/%s.txt", $szInputDirName, $szDir);
-    
+
     //saveDataFromMem2File($arList, $szFPOutputFN, "wt");
     //$nTotalFiles += count($arList);
 }
@@ -79,19 +81,19 @@ if($nAction ==1)
 
     $szVideoID = $_REQUEST["vVideoID"];
     printf("<H1>Annotation for video [%s]</H1>\n", $szVideoID);
-    
+
     // load keyframes
     $szFPInputFN = sprintf("%s/%s.txt", $szInputDirName, $szVideoID);
     loadListFile($arKFList, $szFPInputFN);
-    
+
     sort($arKFList);
     $nNumKF = count($arKFList);
-    
+
     if($nShuffle)
     {
         shuffle($arKFList);
     }
-    
+
     // sampling rate 10
     for($i=0; $i<$nNumKF; $i+=$nSamplingRate)
     {

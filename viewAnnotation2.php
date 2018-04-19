@@ -1,8 +1,8 @@
 <?php
 
 /*
-- view annotation of a label
-- can be view with/without frame
+- view annotations of a label
+- can be view with/without frame - use cropView option
 */
 
 /*
@@ -146,6 +146,9 @@ function imgrect2base64BB($szLine)
 
     $nNumRects = intval($arTmp[1]);
 
+    // url to update annotation
+    $szAnnURL = sprintf("LabelMeAnnotationTool/tool.html?username=duy&collection=LabelMe&mode=f&folder=%s&image=%s&objects=noparking,neg-noparking,neg-noparkingx,limit40,limit50,greenguide,blueguide", $szVideoID, $szKeyFrameID);
+
 //    printf("%d \n", $nNumRects);
 //    exit();
     for($k=0; $k<$nNumRects; $k++)
@@ -163,13 +166,15 @@ function imgrect2base64BB($szLine)
         // create a new temporary image
         $tmp_img = imagecreatetruecolor($new_width, $new_height);
 
-        $nRet = imagecopyresampled($tmp_img, $imgzz, 0, 0, $left, $ $top, $new_width, $new_height, $new_width, $new_height);
+        //$nRet = imagecopyresampled($tmp_img, $imgzz, 0, 0, $left, $top, $new_width, $new_height, $new_width, $new_height);
+        $nRet = imagecopy($tmp_img, $imgzz, 0, 0, $left, $top, $new_width, $new_height);
+
 
         //output to buffer
         ob_start();
         imagejpeg($tmp_img);
         $szImgContent = base64_encode(ob_get_clean());
-        printf("<IMG WIDTH='100' TITLE='%s' SRC='data:image/jpeg;base64,". $szImgContent ."' /> ", $szLine);
+        printf("<A HREF='%s' TARGET='_blank'><IMG WIDTH='100' HEIGHT='100' TITLE='%s' SRC='data:image/jpeg;base64,". $szImgContent ."' /></A> ", $szAnnURL, $szLine);
         imagedestroy($tmp_img);
     }
     imagedestroy($imgzz);

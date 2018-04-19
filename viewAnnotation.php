@@ -1,7 +1,7 @@
 <?php
 
 /*
-- given a labelName and
+- just for reference - use viewAnnotation2.php for updates
 */
 
 /*

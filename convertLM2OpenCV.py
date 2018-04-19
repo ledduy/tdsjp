@@ -14,6 +14,9 @@ t_folder = sys.argv[2]
 videoID = sys.argv[3]
 folder = '{}/{}'.format(t_folder, videoID)
 
+# window size
+minWinX = 30
+minWinY = 30
 
 dt = []
 #t_name = 'noparking'
@@ -63,7 +66,7 @@ for file in glob.glob(os.path.join(folder,'*.xml')):
                     sub_bounding[3] = str(abs(int(float(bounding_y[3])) - int(float(bounding_y[0]))))
 
                     # min size is (24,24)
-                    if(sub_bounding[2] >= 24) and (sub_bounding[3]>=24):
+                    if(int(sub_bounding[2]) >= minWinX) and (int(sub_bounding[3])>=minWinY):
                         bounding.append([sub_bounding,label_name])
                     #print(bounding[-1])
     if count != 0:
