@@ -55,6 +55,91 @@ $szKeyFrameDir = "/home/mmlab/mbase/tdsjp/keyframe";
 
 $arAllNeg = array(); // to merge neg-noparking and neg-noparkingx
 
+
+// special treatment for NOTLabel, i.e confused $arLabels
+foreach($arNOTLabel as $labelName)
+{
+    $arNeg = array(); // list of keyframe only
+
+    printf("### SPECIAL --- Processing label [%s]\n", $labelName);
+    //exit();
+    foreach($arTrainVideos as $videoID)
+    {
+        $szFileName = sprintf("tmp/%s-%s.dat", $labelName, $videoID);
+
+        if(!file_exists($szFileName))
+        {
+            printf("File %s not existed\n", $szFileName);
+            $szCmd = sprintf("python convertLM2OpenCV.py %s %s %s", $labelName, $annDir, $videoID);
+            printf("%s\n", $szCmd);
+            exec($szCmd);
+        }
+        else {
+            printf("File %s existed\n", $szFileName);
+        }
+
+        loadListFile($arData, $szFileName);
+        // not target label
+
+        $NOTlabelName = sprintf("negNOT-%s", $labelName);
+        $imgDir = sprintf("%s/%s", $szTrial, $NOTlabelName);
+        //printf($imgDir);quit();
+        makeDir($imgDir);
+
+        //quit();
+
+        foreach($arData as $szLine)
+        {
+            // limit50/MAH00019-058720.jpg 1 685 325 76 79
+
+            $arTmp = explode(' ', $szLine);
+
+            $szTmpName = trim($arTmp[0]);
+
+            $left = intval($arTmp[2]);
+            $top = intval($arTmp[3]);
+            $width = intval($arTmp[4]);
+            $height = intval($arTmp[5]);
+
+            $arTmp = explode('/', $szLine);
+
+            $szTmp = $arTmp[1];
+            $arTmpx = explode(' ', $szTmp);
+            $imgName = $arTmpx[0];
+
+            $imgNameShort = str_replace(".jpg", "", $imgName);
+
+            $fullPathImg = sprintf("%s/%s/%s", $szKeyFrameDir, $videoID, $imgName);
+
+            $szCmd = sprintf("cp %s %s ", $fullPathImg, $imgDir);
+            printf("%s\n", $szCmd);
+            exec($szCmd);
+
+            // crop the bounding box
+            $outDir = $imgDir;
+            $szParam = sprintf("%s %s %s %s %s %s %s", $imgNameShort, $imgDir, $left, $top, $width, $height, $outDir);
+            $szCmd = sprintf("python cropRect4NegImages.py %s", $szParam);
+            printf("%s\n", $szCmd);
+            $arAllCmd[] = $szCmd;
+            exec($szCmd);
+
+            // outputfile = '{}/{}-{}-{}-{}-{}-neg.jpg'.format(out_dir, img_name, left, top, width, height)
+
+            $szCropFN = sprintf("%s-%s-%s-%s-%s-neg.jpg", $imgNameShort, $left, $top, $width, $height);
+
+            $arNeg[] = sprintf("%s/%s/%s", $szTrial, $NOTlabelName, $szCropFN);
+
+            $arAllNeg[] = sprintf("%s/%s/%s", $szTrial, $NOTlabelName, $szCropFN);
+        }
+
+        // move to szTrial
+        $szCmd = sprintf("mv %s %s", $szFileName, $szTrial);
+        exec($szCmd);
+    }
+}
+
+//quit();
+
 foreach($arLabels as $labelName)
 {
     $arPos = array(); // include bounding box
@@ -182,81 +267,6 @@ foreach($arLabels as $labelName)
     saveDataFromMem2File($arAllCmd, $szFileName);
     //break;
 
-}
-
-// special treatment for NOTLabel, i.e confused $arLabels
-foreach($arNOTLabel as $labelName)
-{
-    $arNeg = array(); // list of keyframe only
-
-    printf("### SPECIAL --- Processing label [%s]\n", $labelName);
-    //exit();
-    foreach($arTrainVideos as $videoID)
-    {
-        $szFileName = sprintf("tmp/%s-%s.dat", $labelName, $videoID);
-
-        if(!file_exists($szFileName))
-        {
-            printf("File %s not existed\n", $szFileName);
-            $szCmd = sprintf("python convertLM2OpenCV.py %s %s %s", $labelName, $annDir, $videoID);
-            printf("%s\n", $szCmd);
-            exec($szCmd);
-        }
-        else {
-            printf("File %s existed\n", $szFileName);
-        }
-
-        loadListFile($arData, $szFileName);
-        // not target label
-
-        $NOTlabelName = sprintf("negNOT-%s", $labelName);
-        $imgDir = sprintf("%s/%s", $szTrial, $NOTlabelName);
-        makeDir($imgDir);
-
-        foreach($arData as $szLine)
-        {
-            // limit50/MAH00019-058720.jpg 1 685 325 76 79
-
-            $arTmp = explode(' ', $szLine);
-
-            $szTmpName = trim($arTmp[0]);
-
-            $left = intval($arTmp[2]);
-            $top = intval($arTmp[3]);
-            $width = intval($arTmp[4]);
-            $height = intval($arTmp[5]);
-
-            $arTmp = explode('/', $szLine);
-
-            $szTmp = $arTmp[1];
-            $arTmpx = explode(' ', $szTmp);
-            $imgName = $arTmpx[0];
-
-            $imgNameShort = str_replace(".jpg", "", $imgName);
-
-            $fullPathImg = sprintf("%s/%s/%s", $szKeyFrameDir, $videoID, $imgName);
-
-            // crop the bounding box
-            $outDir = $imgDir;
-            $szParam = sprintf("%s %s %s %s %s %s %s", $imgNameShort, $imgDir, $left, $top, $width, $height, $outDir);
-            $szCmd = sprintf("python cropRect4NegImages.py %s", $szParam);
-            printf("%s\n", $szCmd);
-            $arAllCmd[] = $szCmd;
-            exec($szCmd);
-
-            // outputfile = '{}/{}-{}-{}-{}-{}-neg.jpg'.format(out_dir, img_name, left, top, width, height)
-
-            $szCropFN = sprintf("%s-%s-%s-%s-%s-neg.jpg", $imgNameShort, $left, $top, $width, $height);
-
-            $arNeg[] = sprintf("%s/%s/%s", $szTrial, $NOTlabelName, $szCropFN);
-
-            $arAllNeg[] = sprintf("%s/%s/%s", $szTrial, $NOTlabelName, $szCropFN);
-        }
-
-        // move to szTrial
-        $szCmd = sprintf("mv %s %s", $szFileName, $szTrial);
-        exec($szCmd);
-    }
 }
 
 

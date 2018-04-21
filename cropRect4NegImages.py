@@ -30,12 +30,16 @@ imgfile = '{}/{}.jpg'.format(img_dir, img_name)
 print('Loading file {} ...'.format(imgfile))
 img = cv2.imread(imgfile)
 
-if img is None:
-    quit()
-right = min(left+width-1, width)
-bottom = min(top+height-1, height)
-crop_img = img[left:right, top:bottom]
+imheight, imwidth, channels = img.shape
 
+if img is None:
+    print('Cannot load file {}'.format(imgfile))
+    quit()
+
+right = min(left+width-1, imwidth)
+bottom = min(top+height-1, imheight)
+crop_img = img[left:right, top:bottom]
+print('Crop rect [{}, {}, {}, {}]'.format(left, top,right, bottom))
 outputfile = '{}/{}-{}-{}-{}-{}-neg.jpg'.format(out_dir, img_name, left, top, width, height)
 print('Saving file {}'.format(outputfile))
 cv2.imwrite(outputfile, crop_img)
