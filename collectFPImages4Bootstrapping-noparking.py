@@ -103,6 +103,10 @@ while(count < max_KF):
 
             # MAH00019,MAH00019-063175.jpg
             line = '{},{}'.format(video_name, output_file)
+
+            line = "<P><A HREF='{}&folder={}&image={}'>{}</A>".format(url_default, video_name, output_file, output_file)
+
+
             count += 1
 
             print('###{}.{}'.format(count, line))

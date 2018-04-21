@@ -17,10 +17,11 @@ def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
    return frame, cnt
 
-video_name = 'MAH00019'
-#video_name = '20180224_02'
+#video_name = 'MAH00019'
+video_name = '20180224_03'
 
 video_ext = 'mp4'
+video_ext = 'avi'
 camera_url = '/Users/ledinhduy/tdsjp/video/{}.{}'.format(video_name, video_ext)
 
 #camera_url = '/Users/ledinhduy/tdsjp/video/20180224_02.avi'
@@ -38,7 +39,9 @@ model_list = {'noparking' :
 #'/Users/ledinhduy/tdsjp/code/TrainBS/noparking-DETECTOR/cascade.xml'
 #'/Users/ledinhduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
 #'/home/mmlab/mbase/tdsjp/code/Train2/noparking-DETECTOR/cascade.xml'
-'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/noparking-DETECTOR/cascade.xml'
+#'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/noparking-DETECTOR/cascade10.xml' # many false p#
+#'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/noparking-DETECTOR/cascade15.xml' # still false p#
+'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/noparking-DETECTOR/cascade20.xml' # many false p#
 }
 
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -47,7 +50,7 @@ frame_id = 0
 frame_rate = 10
 
 nCount = 0;
-nSkip = 4500
+nSkip = 5000
 cntx = 0
 while(True):
     # Capture frame-by-frame

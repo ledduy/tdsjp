@@ -21,7 +21,7 @@ NUM_POS=620  # exact number of pos samples
 WIDTH=30
 HEIGHT=30
 
-opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
+#opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
 
 #exit
 #quit
@@ -39,7 +39,7 @@ BG_FILE=$TRIAL_NAME/neg-noparkingx2.dat2
 # so luong POS phai <= so luong thuc su trong file .vec
 NUM_POS=620 #
 NUM_NEG=620 # = NUM_POS
-NUM_STAGES=10 # 10 - 15 - 20 - tang dan de co ket qua trung gian
+NUM_STAGES=25 # 10 - 15 - 20 - tang dan de co ket qua trung gian
 MIN_HIT_RATE=0.999
 MAX_FA_RATE=0.3
 
