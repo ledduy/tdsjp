@@ -33,7 +33,7 @@ BG_FILE=$TRIAL_NAME/neg-noparkingx2.dat2
 # so luong POS phai <= so luong thuc su trong file .vec
 NUM_POS=620 #629
 NUM_NEG=620 #620
-NUM_STAGES=20 #20
+NUM_STAGES=19 #20
 MIN_HIT_RATE=0.999
 MAX_FA_RATE=0.3
 

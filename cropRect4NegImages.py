@@ -30,6 +30,8 @@ imgfile = '{}/{}.jpg'.format(img_dir, img_name)
 print('Loading file {} ...'.format(imgfile))
 img = cv2.imread(imgfile)
 
+if img is None:
+    quit()
 right = min(left+width-1, width)
 bottom = min(top+height-1, height)
 crop_img = img[left:right, top:bottom]

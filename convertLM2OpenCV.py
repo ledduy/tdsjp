@@ -23,7 +23,6 @@ dt = []
 #folder = 'Annotations/MAH00019'
 #videoID = 'MAH00019'
 
-
 files = glob.glob(os.path.join(folder,'*.xml'))
 
 for file in glob.glob(os.path.join(folder,'*.xml')):
@@ -72,11 +71,11 @@ for file in glob.glob(os.path.join(folder,'*.xml')):
     if count != 0:
         dt.append([name,count, bounding])
 
-
-with open(t_name + '-' + videoID +'.dat','w') as info:
+numSamples = 0
+with open('tmp/'+ t_name + '-' + videoID +'.dat','w') as info:
     for element in dt:
-
         firstCount = 0  # to handle the case of many bounding box per line
+        isWriteOut = 0
         for bounding_box in element[2]:
             if(firstCount == 0):
                 # noparking/MAH00019-xxx.jpg
@@ -86,5 +85,9 @@ with open(t_name + '-' + videoID +'.dat','w') as info:
             for unit in bounding_box[0]:
                 info.write(unit)
                 info.write(' ')
-            #info.write('\n')
-        info.write('\n')
+            isWriteOut = 1
+        if isWriteOut:
+            info.write('\n')
+            numSamples = numSamples +1
+info.close()
+print('Done - num samples: {}'.format(numSamples))
