@@ -36,9 +36,12 @@ if img is None:
     print('Cannot load file {}'.format(imgfile))
     quit()
 
-right = min(left+width-1, imwidth)
-bottom = min(top+height-1, imheight)
-crop_img = img[left:right, top:bottom]
+right = min(left+width-1, imwidth-1)
+bottom = min(top+height-1, imheight-1)
+
+// cu chuoi bug
+crop_img = img[top:bottom, left:right]
+
 print('Crop rect [{}, {}, {}, {}]'.format(left, top,right, bottom))
 outputfile = '{}/{}-{}-{}-{}-{}-neg.jpg'.format(out_dir, img_name, left, top, width, height)
 print('Saving file {}'.format(outputfile))
