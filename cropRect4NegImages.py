@@ -39,7 +39,7 @@ if img is None:
 right = min(left+width-1, imwidth-1)
 bottom = min(top+height-1, imheight-1)
 
-// cu chuoi bug
+# cu chuoi bug -
 crop_img = img[top:bottom, left:right]
 
 print('Crop rect [{}, {}, {}, {}]'.format(left, top,right, bottom))
