@@ -1,6 +1,9 @@
-#written by DuyLD
+# written by DuyLD
+# last update: Apr 25
 
+# opencv must be installed in advance along with python
 import cv2
+import sys
 
 def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
@@ -17,15 +20,25 @@ def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
    return frame, cnt
 
+########
+
+if (len(sys.argv) != 3):
+    print('### Usage: {} videoName videoExt'.format(sys.argv[0]))
+    print('### Usage: {} MAH00019 MP4'.format(sys.argv[0]))
+    quit()
+
 #video_name = 'MAH00019'
 video_name = '20180224_03'
+video_name = sys.argv[1]
 
-video_ext = 'mp4'
+#video_ext = 'mp4'
 video_ext = 'avi'
-camera_url = '/Users/ledinhduy/tdsjp/video/{}.{}'.format(video_name, video_ext)
+video_ext = sys.argv[2]
 
-#camera_url = '/Users/ledinhduy/tdsjp/video/20180224_02.avi'
-#camera_url = '/home/ledduy/tdsjp/video/{}.{}'.format(video_name, video_ext)
+#camera_url = './20180224_02.avi'
+
+video_dir = './video'
+camera_url = '{}/{}.{}'.format(video_dir, video_name, video_ext)
 
 video = cv2.VideoCapture(camera_url)
 
@@ -35,21 +48,21 @@ legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
 model_list = {'noparking' :
-#'C:/Users/ledduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
-#'/Users/ledinhduy/tdsjp/code/TrainBS/noparking-DETECTOR/cascade.xml'
-#'/Users/ledinhduy/tdsjp/code/Train1/noparking-DETECTOR2/cascade.xml'
-#'/home/mmlab/mbase/tdsjp/code/Train2/noparking-DETECTOR/cascade.xml'
-#'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/noparking-DETECTOR/cascade10.xml' # many false p#
-#'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/noparking-DETECTOR/cascade15.xml' # still false p#
-'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/noparking-DETECTOR/cascade20.xml' # many false p#
+'./noparking-DETECTOR/cascade20.xml' # good performance
 }
+
+output_dir = './tmp'
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 cnt = 0
 frame_id = 0
+
+# to reduce the number of keyframes to be processed
 frame_rate = 10
 
 nCount = 0;
+
+# skip first K frames --> useful to seek to starting time
 nSkip = 2000
 cntx = 0
 while(True):
@@ -85,7 +98,7 @@ while(True):
 
             nCount += 1
             if(nCount <= 100):
-                cv2.imwrite('../tmp/{}'.format(output_file), frame)
+                cv2.imwrite('{}/{}'.format(output_dir, output_file), frame)
 
 
         cv2.imshow('Demo TDS', frame)
