@@ -21,7 +21,7 @@ require_once "kl-IOTools.php";
 */
 
 // list of available labels to be used with objects=xxx
-$szLabelList = "noparking,neg-noparking,neg-noparkingx,limit40,limit50,greenguide,blueguide";
+$szLabelList = "noparking,neg-noparking,neg-noparkingx,limit40,limit50,neg-limitx,greenguide,blueguide";
 
 $nSamplingRate = 10;  // to reduce number of keyframes to show
 $nShuffle = 0; // to shuffle the list before showing
