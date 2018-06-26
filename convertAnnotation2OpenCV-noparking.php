@@ -5,6 +5,15 @@
 
 # update for neg-noparking and neg-noparkingx
 # update for BOOTSTRAPPING --> special treatment for neg-noparkingx - use bounding box to crop into new image
+# convertAnnotationxxx-noparking - because of neg-noparking & neg-noparkingx - need special treatment
+# neg-noparkingx2.dat2 -- background file containing negative images, i.e do not have any noparking object
+
+# get annotation data = keyframe + boundingbox
+# $szCmd = sprintf("python convertLM2OpenCV.py %s %s %s", $labelName, $annDir, $videoID);
+
+# crop bounding box and save to new image
+# $szParam = sprintf("%s %s %s %s %s %s %s", $imgNameShort, $imgDir, $left, $top, $width, $height, $outDir);
+# $szCmd = sprintf("python cropRect4NegImages.py %s", $szParam);
 
 /*
 
@@ -24,22 +33,23 @@ Les-MacBook-Pro:tdsjp ledi$ scp -r mmx@192.168.28.6x:/var/www/html/LabelMeAnnota
 
 require_once "kl-IOTools.php";
 
-# copy data to tdsjp/code
+# copy data to tdsjp/code/Annotations
 $szCmd = sprintf("cp -r /var/www/html/LabelMeAnnotationTool/Annotations ./");
 printf("%s\n", $szCmd);
 exec($szCmd);
 
 clearstatcache();
 
-
+# focus on noparking sign
 $arLabels = array('noparking', 'neg-noparking', 'neg-noparkingx');
 $arLabelBS = array('neg-noparkingx', 'neg-noparking');
 
 $arNOTLabel = array('limit40', 'limit50'); // labels that cause confusion, eg. noparking vs limit50
 
-//
+//all videos
 $arAllVideos = array('MAH00019', '20180224_01', '20180224_02', '20180224_03', '20180306_01', '20180306_02', '20180306_03', 'traffic_sign_video2802');
 
+# videos of the training set = 5
 $arTrainVideos1 = array('MAH00019', '20180224_01', '20180224_02', '20180306_01', '20180306_03');
 
 $szTrial = 'Train2';
@@ -55,7 +65,6 @@ $szKeyFrameDir = "/home/mmlab/mbase/tdsjp/keyframe";
 
 $arAllNeg = array(); // to merge neg-noparking and neg-noparkingx
 
-
 // special treatment for NOTLabel, i.e confused $arLabels
 foreach($arNOTLabel as $labelName)
 {
@@ -65,6 +74,7 @@ foreach($arNOTLabel as $labelName)
     //exit();
     foreach($arTrainVideos as $videoID)
     {
+        // noparking-videoID.dat
         $szFileName = sprintf("tmp/%s-%s.dat", $labelName, $videoID);
 
         if(!file_exists($szFileName))
@@ -79,15 +89,14 @@ foreach($arNOTLabel as $labelName)
         }
 
         loadListFile($arData, $szFileName);
-        // not target label
 
+        // not target label
         $NOTlabelName = sprintf("negNOT-%s", $labelName);
         $imgDir = sprintf("%s/%s", $szTrial, $NOTlabelName);
         //printf($imgDir);quit();
         makeDir($imgDir);
 
         //quit();
-
         foreach($arData as $szLine)
         {
             // limit50/MAH00019-058720.jpg 1 685 325 76 79
@@ -268,7 +277,6 @@ foreach($arLabels as $labelName)
     //break;
 
 }
-
 
 // merge neg-noparkingx and neg-noparking
 $labelName = "neg-noparkingx2";

@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 # written by DuyLD
 # last update: Apr 25
 
 # opencv must be installed in advance along with python
 import cv2
 import sys
+=======
+#written by DuyLD
+
+import cv2
+>>>>>>> d3a7c7e57795eac505790b80a056972210175817
 
 def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
@@ -20,6 +26,7 @@ def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
    return frame, cnt
 
+<<<<<<< HEAD
 ########
 
 if (len(sys.argv) != 3):
@@ -39,6 +46,17 @@ video_ext = sys.argv[2]
 
 video_dir = './video'
 camera_url = '{}/{}.{}'.format(video_dir, video_name, video_ext)
+=======
+#video_name = 'MAH00019'
+video_name = '20180224_03'
+
+video_ext = 'mp4'
+video_ext = 'avi'
+camera_url = '/Users/ledinhduy/tdsjp/video/{}.{}'.format(video_name, video_ext)
+
+#camera_url = '/Users/ledinhduy/tdsjp/video/20180224_02.avi'
+#camera_url = '/home/ledduy/tdsjp/video/{}.{}'.format(video_name, video_ext)
+>>>>>>> d3a7c7e57795eac505790b80a056972210175817
 
 video = cv2.VideoCapture(camera_url)
 
@@ -47,6 +65,7 @@ frame_h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
 legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
+<<<<<<< HEAD
 model_list = {'noparking' :
 './limit50-DETECTOR/cascade20.xml' # good performance
 }
@@ -64,6 +83,19 @@ nCount = 0;
 
 # skip first K frames --> useful to seek to starting time
 nSkip = 2000
+=======
+model_list = {'limit50' :
+'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/limit50-DETECTOR/cascade10.xml' # many false p#
+}
+
+font = cv2.FONT_HERSHEY_SIMPLEX
+cnt = 0
+frame_id = 0
+frame_rate = 10
+
+nCount = 0;
+nSkip = 5000
+>>>>>>> d3a7c7e57795eac505790b80a056972210175817
 cntx = 0
 while(True):
     # Capture frame-by-frame
@@ -98,7 +130,11 @@ while(True):
 
             nCount += 1
             if(nCount <= 100):
+<<<<<<< HEAD
                 cv2.imwrite('{}/{}'.format(output_dir, output_file), frame)
+=======
+                cv2.imwrite('../tmp/{}'.format(output_file), frame)
+>>>>>>> d3a7c7e57795eac505790b80a056972210175817
 
 
         cv2.imshow('Demo TDS', frame)

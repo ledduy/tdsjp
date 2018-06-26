@@ -50,7 +50,7 @@ frame_id = 0
 frame_rate = 10
 
 nCount = 0;
-nSkip = 5000
+nSkip = 2000
 cntx = 0
 while(True):
     # Capture frame-by-frame
