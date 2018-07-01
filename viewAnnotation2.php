@@ -18,13 +18,13 @@ phpinfo();
 
 require_once "kl-IOTools.php";
 
-function img2base64($szImgURL)
+function img2base64($szImgURL, $thumbWidth=800)
 {
     $imgzz = imagecreatefromjpeg($szImgURL);
     $widthzz = imagesx($imgzz);
     $heightzz = imagesy($imgzz);
     // calculate thumbnail size
-    $new_width = $thumbWidth = 800;  // to reduce loading time
+    $new_width = $thumbWidth;  // to reduce loading time
     $new_height = floor($heightzz*($thumbWidth/$widthzz));
     // create a new temporary image
     $tmp_img = imagecreatetruecolor($new_width, $new_height);
@@ -43,7 +43,7 @@ function img2base64($szImgURL)
     return $szImgContent;
 }
 
-function imgrect2base64($szLine)
+function imgrect2base64($szLine, $thumbWidth=800)
 {
     // limit50/20180306_01-028980.jpg 1 477 186 70 76
     $arTmp = explode(" ", $szLine);
@@ -90,7 +90,7 @@ function imgrect2base64($szLine)
     }
 
     // calculate thumbnail size
-    $new_width = $thumbWidth = 1000;  // to reduce loading time
+    $new_width = $thumbWidth;  // to reduce loading time
     $new_height = floor($heightzz*($thumbWidth/$widthzz));
     // create a new temporary image
     $tmp_img = imagecreatetruecolor($new_width, $new_height);
@@ -204,49 +204,81 @@ $szCodeDir = "/home/mmlab/mbase/tdsjp/code";
 $szAnnDir = sprintf("%s/%s", $szCodeDir, $szTrialName);
 
 // /home/mmlab/mbase/tdsjp/code/Train1/limit50.dat
-$szAnnFile = sprintf("%s/%s.dat", $szAnnDir, $szLabelName);
-loadListFile($arList, $szAnnFile);
-
-printf("<H1>Annotations for [%s] - [%s]: %d </H1>\n", $szTrialName, $szLabelName, count($arList));
-
-foreach($arList as $szLine)
+if(strstr($szLabelName, 'neg'))
 {
-    // limit50/20180306_01-028980.jpg 1 477 186 70 76
-    $arTmp = explode(" ", $szLine);
+    $szAnnFile = sprintf("%s/%s2.dat2", $szAnnDir, $szLabelName); // neg-noparkingx2.dat2
+    loadListFile($arList, $szAnnFile);
 
-    $szKeyFrameIDx = trim($arTmp[0]);
 
-    //printf("<BR>%s\n", $szKeyFrameIDx);
-    $arTmp1 = explode("/", $szKeyFrameIDx);
+    printf("<H1>Annotations for [%s] - [%s]: %d </H1>\n", $szTrialName, $szLabelName, count($arList));
 
-    $szKeyFrameID = trim($arTmp1[1]);
-    //printf("<BR>%s\n", $szKeyFrameID);
-
-    $arTmp2 = explode("-", $szKeyFrameID);
-    $szVideoID = trim($arTmp2[0]);
-    //printf("<BR>%s\n", $szVideoID);
-
-    // LabelMeAnnotationTool/Images/$VIDEOID
-    $szURL = sprintf("LabelMeAnnotationTool/Images/%s/%s", $szVideoID, $szKeyFrameID);
-
-    //$szImgContent = img2base64($szURL);
-
-    if($nViewCrop)
+    foreach($arList as $szLine)
     {
-        imgrect2base64BB($szLine);
-    }
-    else {
-        $szImgContent = imgrect2base64($szLine);
+        $szTrialDir = '/home/mmlab/mbase/tdsjp/code';
+        // Train3/negNOT-noparking/MAH00019-056905-645-436-68-73-neg.jpg
+        $szURL = sprintf("%s/%s", $szTrialDir, $szLine);
+        printf("<!--%s-->\n", $szURL);
+
+        $szImgContent = img2base64($szURL, 100);
+
+        $arTmp = explode("/", $szLine);
+        $szLine2 = trim($arTmp[2]);
+        $arTmp = explode("-", $szLine2);
+        $szVideoID = trim($arTmp[0]);
+        $szFrameOffset = trim($arTmp[1]);
+        $szKeyFrameID = sprintf("%s-%s.jpg", $szVideoID, $szFrameOffset);
 
         // url to update annotation
-        $szAnnURL = sprintf("LabelMeAnnotationTool/tool.html?username=duy&collection=LabelMe&mode=f&folder=%s&image=%s&objects=noparking,neg-noparking,neg-noparkingx,limit40,limit50,greenguide,blueguide", $szVideoID, $szKeyFrameID);
+        $szAnnURL = sprintf("LabelMeAnnotationTool/tool.html?username=duy&collection=LabelMe&mode=f&folder=%s&image=%s&objects=noparking,neg-noparking,neg-noparkingx,limit40,limit50,greenguide,blueguide,neg-blueguide", $szVideoID, $szKeyFrameID);
 
         printf("<A HREF='%s' TARGET='_blank'><IMG  TITLE='%s' SRC='data:image/jpeg;base64,". $szImgContent ."' /></A>", $szAnnURL, $szLine);
+
     }
+}
+else
+{
+    $szAnnFile = sprintf("%s/%s.dat", $szAnnDir, $szLabelName);
+    loadListFile($arList, $szAnnFile);
+    printf("<H1>Annotations for [%s] - [%s]: %d </H1>\n", $szTrialName, $szLabelName, count($arList));
 
-    // printf("<BR><IMG SRC='%s'>\n", $szURL);
+    foreach($arList as $szLine)
+    {
+        // limit50/20180306_01-028980.jpg 1 477 186 70 76
+        $arTmp = explode(" ", $szLine);
 
-    //break;
+        $szKeyFrameIDx = trim($arTmp[0]);
 
+        //printf("<BR>%s\n", $szKeyFrameIDx);
+        $arTmp1 = explode("/", $szKeyFrameIDx);
+
+        $szKeyFrameID = trim($arTmp1[1]);
+        //printf("<BR>%s\n", $szKeyFrameID);
+
+        $arTmp2 = explode("-", $szKeyFrameID);
+        $szVideoID = trim($arTmp2[0]);
+        //printf("<BR>%s\n", $szVideoID);
+
+        // LabelMeAnnotationTool/Images/$VIDEOID
+        $szURL = sprintf("LabelMeAnnotationTool/Images/%s/%s", $szVideoID, $szKeyFrameID);
+
+        //$szImgContent = img2base64($szURL);
+
+        if($nViewCrop)
+        {
+            imgrect2base64BB($szLine);
+        }
+        else {
+            $szImgContent = imgrect2base64($szLine);
+
+            // url to update annotation
+            $szAnnURL = sprintf("LabelMeAnnotationTool/tool.html?username=duy&collection=LabelMe&mode=f&folder=%s&image=%s&objects=noparking,neg-noparking,neg-noparkingx,limit40,limit50,greenguide,blueguide,neg-blueguide", $szVideoID, $szKeyFrameID);
+
+            printf("<A HREF='%s' TARGET='_blank'><IMG  TITLE='%s' SRC='data:image/jpeg;base64,". $szImgContent ."' /></A>", $szAnnURL, $szLine);
+        }
+
+        // printf("<BR><IMG SRC='%s'>\n", $szURL);
+
+        //break;
+}
 }
 ?>
