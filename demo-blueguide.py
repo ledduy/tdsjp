@@ -4,6 +4,7 @@
 # opencv must be installed in advance along with python
 import cv2
 import sys
+import os
 
 def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
@@ -26,12 +27,14 @@ if (len(sys.argv) != 3):
     quit()
 
 #video_name = 'MAH00019'
-video_name = '20180224_03'
-video_name = sys.argv[1]
+#video_name = '20180224_03'
+#video_name = '20180224_01'
+video_name = '20180306_01'
+#video_name = sys.argv[1]
 
-#video_ext = 'mp4'
-video_ext = 'avi'
-video_ext = sys.argv[2]
+video_ext = 'mp4'
+#video_ext = 'avi'
+#video_ext = sys.argv[2]
 
 #camera_url = './20180224_02.avi'
 
@@ -46,8 +49,14 @@ legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
 model_list = {'blueguide' :
-'/Users/ledinhduy/Documents/GitHub/tdsjp/Train2/blueguide-DETECTOR/cascade10.xml' # many false p#
+#'./Train3/blueguide-DETECTOR-Train3/cascade15.xml' # many false p#
+'./Train3/blueguide-DETECTOR-Train3/cascade24.xml' # many false p#
 }
+
+output_dir = './tmp/blueguide-DETECTOR-Train3'
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 cnt = 0
@@ -87,11 +96,11 @@ while(True):
         cv2.putText(frame, output_text, (legend_loc_x, legend_loc_y), font, 1, (0,255,0), 2, cv2.LINE_AA)
 
         if all_cnt > 0:
-            output_file = '%s-%s.jpg' % (video_name, output_text)
+            output_file = '%s/%s-%s.jpg' % (output_dir, video_name, output_text)
 
             nCount += 1
             if(nCount <= 100):
-                cv2.imwrite('../tmp/{}'.format(output_file), frame)
+                cv2.imwrite(output_file, frame)
 
         cv2.imshow('Demo TDS', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):

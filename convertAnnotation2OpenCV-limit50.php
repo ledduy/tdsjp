@@ -1,10 +1,7 @@
 <?php
 
 # written by Duy-Dinh Le
-# last update:May 8, 2018
-
-# update for neg-noparking and neg-noparkingx
-# update for BOOTSTRAPPING --> special treatment for neg-noparkingx - use bounding box to crop into new image
+# last update: Jun 30, 2018
 
 /*
 
@@ -16,9 +13,9 @@ Les-MacBook-Pro:tdsjp ledi$ scp -r mmx@192.168.28.6x:/var/www/html/LabelMeAnnota
 /*
     Step 1: Parse annotation data from videos
     Step 2: Copy keyframes having at least one bounding box to trialName/labelName
-    Step 3: For neg-noparkingx - crop bounding box image to trialName/labelName
+    Step 3: For neg-limitx - crop bounding box image to trialName/labelName
     Step 4: For NOTTargetLabel - crop bounding box to trialName/negNOT-labelName
-    Step 5: For annotation of positive images --> use trialName/labelName.dat --> noparking/MAH00019-058720.jpg 1 685 325 76 79
+    Step 5: For annotation of positive images --> use trialName/labelName.dat --> limit50/MAH00019-058720.jpg 1 685 325 76 79
     Step 5:
 */
 
@@ -38,11 +35,12 @@ $arNEGLabels = array('neg-limitx');
 $arNOTLabel = array('noparking'); // labels that cause confusion, eg. noparking vs limit50
 
 ### CHANGE
-$arAllVideos = array('MAH00019', '20180224_01', '20180224_02', '20180224_03', '20180306_01', '20180306_02', '20180306_03', 'traffic_sign_video2802');
+#$arAllVideos = array('MAH00019', '20180224_01', '20180224_02', '20180224_03', '20180306_01', '20180306_02', '20180306_03', 'traffic_sign_video2802');
 
-$arTrainVideos1 = array('MAH00019', '20180224_01', '20180224_02', '20180306_01', '20180306_03');
+$arTrainVideos1 = array('MAH00019', '20180224_01', '20180224_02', '20180306_01', '20180306_03', '20180313_03', 'NoStopping');
 
-$szTrial = 'Train2';
+#$szTrial = 'Train2';
+$szTrial = 'Train3';  # Jun 30 --> enrich annotations and work for all 3 traffic signs
 makeDir($szTrial);
 
 $arTrainVideos = $arTrainVideos1;
@@ -54,7 +52,6 @@ $szKeyFrameDir = "/home/mmlab/mbase/tdsjp/keyframe";
 //print_r($arLabels); exit();
 
 $arAllNeg = array(); // to merge neg-noparking and neg-noparkingx
-
 
 // special treatment for NOTLabel, i.e confused $arLabels
 foreach($arNOTLabel as $labelName)

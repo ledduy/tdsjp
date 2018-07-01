@@ -41,13 +41,13 @@ $arNEGLabels = array('neg-blueguide');
 $arNOTLabel = array('noparking', 'limit50', 'limit40'); // labels that cause confusion, eg. noparking vs limit50
 
 ### CHANGE
-$arAllVideos = array('MAH00019', '20180224_01', '20180224_02', '20180224_03', '20180306_01', '20180306_02', '20180306_03', 'traffic_sign_video2802');
+#$arAllVideos = array('MAH00019', '20180224_01', '20180224_02', '20180224_03', '20180306_01', '20180306_02', '20180306_03', 'traffic_sign_video2802');
 
-$arTrainVideos1 = array('MAH00019', '20180224_01', '20180224_02', '20180306_01', '20180306_03');
-
+$arTrainVideos1 = array('MAH00019', '20180224_01', '20180224_02', '20180306_01', '20180306_03', '20180313_03');
 
 ### CHANGE
-$szTrial = 'Train2';
+#$szTrial = 'Train2';
+$szTrial = 'Train3';  # Jun 30 --> enrich annotations and work for all 3 traffic signs
 makeDir($szTrial);
 
 $arTrainVideos = $arTrainVideos1;
