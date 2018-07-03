@@ -1,16 +1,16 @@
 # written by DuyLD
-# last update: Apr 25
+# last update: Jun 30
 
 # opencv must be installed in advance along with python
 import cv2
 import sys
 import os
 
-def detect(tds_classifier_xml, frame, gray_img, sign_name):
+def detect(tds_classifier_xml, frame, gray_img, sign_name, minW=40, maxW=200):
 
    tds_cascade = cv2.CascadeClassifier(tds_classifier_xml)
 
-   sign = tds_cascade.detectMultiScale(gray_img, 1.25, 3)
+   sign = tds_cascade.detectMultiScale(gray_img, scaleFactor=1.25, minNeighbors=3, minSize=(minW, minW), maxSize=(maxW, maxW))
    cnt = 0
    for (x,y,w,h) in sign:
        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
@@ -21,20 +21,20 @@ def detect(tds_classifier_xml, frame, gray_img, sign_name):
 
    return frame, cnt
 
+########
+
 if (len(sys.argv) != 3):
     print('### Usage: {} videoName videoExt'.format(sys.argv[0]))
     print('### Usage: {} MAH00019 MP4'.format(sys.argv[0]))
     quit()
 
 #video_name = 'MAH00019'
-#video_name = '20180224_03'
-#video_name = '20180224_01'
-video_name = '20180306_01'
-#video_name = sys.argv[1]
+video_name = '20180224_03'
+video_name = sys.argv[1]
 
-video_ext = 'mp4'
-#video_ext = 'avi'
-#video_ext = sys.argv[2]
+#video_ext = 'mp4'
+video_ext = 'avi'
+video_ext = sys.argv[2]
 
 #camera_url = './20180224_02.avi'
 
@@ -49,23 +49,26 @@ legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
 model_list = {'blueguide' :
-#'./Train3/blueguide-DETECTOR-Train3/cascade15.xml' # many false p#
-'./Train3/blueguide-DETECTOR-Train3/cascade24.xml' # many false p#
+'./Train2/blueguide-DETECTOR-Train2/cascade.xml' # good performance
 }
 
-output_dir = './tmp/blueguide-DETECTOR-Train3'
+output_dir = './tmp'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
-
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 cnt = 0
 frame_id = 0
-frame_rate = 10
 
 nCount = 0;
-nSkip = 5000
 
+# CHANGE - PARAMS
+# skip first K frames --> useful to seek to starting time
+nSkip = 1
+# for viewing keyframes
+nFrameSamplingRate  = 2
+# for detecting keyframes -- to reduce the number of keyframes to be processed
+nFrameDetectionRate = 10
 cntx = 0
 while(True):
     # Capture frame-by-frame
@@ -80,8 +83,8 @@ while(True):
     if (cntx < nSkip):
         continue
 
-    if (cnt % frame_rate == 0):
-        cnt = 0
+    # perform detection
+    if (cnt % nFrameDetectionRate == 0):
         gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         output_text = 'frame %d' % (frame_id)
@@ -96,13 +99,18 @@ while(True):
         cv2.putText(frame, output_text, (legend_loc_x, legend_loc_y), font, 1, (0,255,0), 2, cv2.LINE_AA)
 
         if all_cnt > 0:
-            output_file = '%s/%s-%s.jpg' % (output_dir, video_name, output_text)
+            output_file = '%s-%s.jpg' % (video_name, output_text)
 
             nCount += 1
             if(nCount <= 100):
-                cv2.imwrite(output_file, frame)
+                cv2.imwrite('{}/{}'.format(output_dir, output_file), frame)
 
-        cv2.imshow('Demo TDS', frame)
+            cv2.imshow('Traffic Sign Detection Demo', frame)
+
+        # viewing only
+        elif (cnt % nFrameSamplingRate == 0):
+            cv2.imshow('Traffic Sign Detection Demo', frame)
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 

@@ -22,7 +22,7 @@ NUM_POS=321  # exact number of pos samples --> check with viewAnnotation2.php
 WIDTH=40
 HEIGHT=40
 
-opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
+#opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
 
 #exit
 #quit
@@ -40,7 +40,7 @@ BG_FILE=$TRIAL_NAME/neg-blueguidex2.dat2
 # so luong POS phai <= so luong thuc su trong file .vec
 NUM_POS=300 #
 NUM_NEG=300 # = NUM_POS
-NUM_STAGES=25 # 10 - 15 - 20 - tang dan de co ket qua trung gian
+NUM_STAGES=23 # 10 - 15 - 20 - tang dan de co ket qua trung gian
 
 #NUM_POS=320 #
 #NUM_NEG=320 # = NUM_POS

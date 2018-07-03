@@ -48,7 +48,7 @@ legend_loc_y = int(frame_h*0.1)
 
 model_list = {'noparking': './Train2/noparking-DETECTOR-Train2/cascade.xml',  # good performance,
 'limit50': './Train2/limit50-DETECTOR-Train2/cascade.xml',  # good performance,
-#'blueguide': './Train2/blueguide-DETECTOR-Train2/cascade.xml',  # good performance,
+'blueguide': './Train2/blueguide-DETECTOR-Train2/cascade.xml',  # not so good performance,
 }
 
 output_dir = './tmp'
@@ -63,7 +63,7 @@ nCount = 0;
 
 # CHANGE - PARAMS
 # skip first K frames --> useful to seek to starting time
-nSkip = 5000
+nSkip = 100
 # for viewing keyframes
 nFrameSamplingRate  = 2
 # for detecting keyframes -- to reduce the number of keyframes to be processed
@@ -74,7 +74,7 @@ while(True):
     ret, frame = video.read()
 
     # resize
-    frame = cv2.resize(frame, (0,0), fx=0.5, fy=0.5)
+    #frame = cv2.resize(frame, (0,0), fx=0.8, fy=0.8)
 
     if ret != True:
         break
@@ -104,7 +104,7 @@ while(True):
             output_file = '%s-%s.jpg' % (video_name, output_text)
 
             nCount += 1
-            if(nCount <= 100):
+            if(nCount <= 100000):
                 cv2.imwrite('{}/{}'.format(output_dir, output_file), frame)
 
             cv2.imshow('Traffic Sign Detection Demo', frame)
