@@ -45,6 +45,10 @@ NUM_POS=1000 #
 NUM_NEG=1000 # new
 NUM_STAGES=10 # 10 - 15 - 20 - tang dan de co ket qua trung gian
 
+NUM_POS=1000 #
+NUM_NEG=1000 # new
+NUM_STAGES=20 # 10 - 15 - 20 - tang dan de co ket qua trung gian
+
 MIN_HIT_RATE=0.999
 MAX_FA_RATE=0.3
 
