@@ -17,8 +17,6 @@ def detect(tds_classifier_xml, frame, gray_img, sign_name, minW=40, maxW=200):
        print ('%s: %d - %d - %d - %d' % (sign_name, x, y, w, h))
        cnt = cnt+1
 
- #   cv2.rectangle(frame,(10,10),(100,100),(255,0,0),2)
-
    return frame, cnt
 
 ########
@@ -48,9 +46,9 @@ frame_h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
 legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
-model_list = {'limit50' :
-#'./Train3/limit50-DETECTOR-Train3/cascade.xml' # good performance
-'./Train2/limit50-DETECTOR-Train2/cascade.xml' # good performance
+model_list = {'noparking': './Train2/noparking-DETECTOR-Train2/cascade.xml',  # good performance,
+'limit50': './Train2/limit50-DETECTOR-Train2/cascade.xml',  # good performance,
+#'blueguide': './Train2/blueguide-DETECTOR-Train2/cascade.xml',  # good performance,
 }
 
 output_dir = './tmp'
@@ -65,7 +63,7 @@ nCount = 0;
 
 # CHANGE - PARAMS
 # skip first K frames --> useful to seek to starting time
-nSkip = 1
+nSkip = 5000
 # for viewing keyframes
 nFrameSamplingRate  = 2
 # for detecting keyframes -- to reduce the number of keyframes to be processed
@@ -74,6 +72,9 @@ cntx = 0
 while(True):
     # Capture frame-by-frame
     ret, frame = video.read()
+
+    # resize
+    frame = cv2.resize(frame, (0,0), fx=0.5, fy=0.5)
 
     if ret != True:
         break

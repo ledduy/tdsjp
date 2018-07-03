@@ -41,9 +41,18 @@ $arNEGLabels = array('neg-blueguide');
 $arNOTLabel = array('noparking', 'limit50', 'limit40'); // labels that cause confusion, eg. noparking vs limit50
 
 ### CHANGE
-#$arAllVideos = array('MAH00019', '20180224_01', '20180224_02', '20180224_03', '20180306_01', '20180306_02', '20180306_03', 'traffic_sign_video2802');
+//all videos
+$arAllVideos = array('MAH00019', 'traffic_sign_video2802', 'NoStopping', 'drive',
+'20180224_01', '20180224_02', '20180224_03',
+'20180306_01', '20180306_02', '20180306_03', '20180313_01', '20180313_02', '20180313_03',
+'20180321_22_ac', '20180321_21_ac', '20180321_11_hc', '20180321_12_hc', '20180321_13_hc',
+'20180321_01_iphone', '20180321_02_iphone', '20180321_03_iphone',
+'20180321_04_iphone', '20180321_05_iphone', '20180321_06_iphone',
+);
 
-$arTrainVideos1 = array('MAH00019', '20180224_01', '20180224_02', '20180306_01', '20180306_03', '20180313_03');
+# videos of the training set = 5
+#$arTrainVideos1 = array('MAH00019', '20180224_01', '20180224_02', '20180306_01', '20180306_03', '20180313_03', 'NoStopping');
+$arTrainVideos1 = $arAllVideos;
 
 ### CHANGE
 #$szTrial = 'Train2';

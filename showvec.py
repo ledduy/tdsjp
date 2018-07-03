@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import sys
 
-def showvec(fn, width=40, height=40, resize=4.0):
+def showvec(fn, width=30, height=30, resize=4.0):
   f = open(fn,'rb')
   HEADERTYP = '<iihh' # img count, img size, min, max
 
@@ -32,5 +32,5 @@ def showvec(fn, width=40, height=40, resize=4.0):
     k = 0xFF & cv2.waitKey(0)
     if k == 27:         # esc to exit
       break
-  
-showvec(sys.argv[1])
+
+showvec(sys.argv[1], 60, 60)

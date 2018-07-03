@@ -187,7 +187,7 @@ if(isset($_REQUEST["labelName"]))
     $szLabelName = $_REQUEST["labelName"];
 }
 
-$szTrialName = "Train2";
+$szTrialName = "Train3";
 
 if(isset($_REQUEST["trialName"]))
 {

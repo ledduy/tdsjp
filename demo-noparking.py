@@ -48,9 +48,9 @@ frame_h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
 legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
-model_list = {'limit50' :
-#'./Train3/limit50-DETECTOR-Train3/cascade.xml' # good performance
-'./Train2/limit50-DETECTOR-Train2/cascade.xml' # good performance
+model_list = {'noparking' :
+#'./Train3/noparking-DETECTOR-Train3/cascade.xml' # good performance
+'./Train2/noparking-DETECTOR-Train2/cascade.xml' # good performance
 }
 
 output_dir = './tmp'
