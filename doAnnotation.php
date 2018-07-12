@@ -37,30 +37,29 @@ else
 
 // collect dirs - run from console tdsjp/code: // php -f xxx.php
 
-$szInputDirName = "/home/mmlab/mbase/tdsjp/keyframe"
-;
+$szInputDirName = "/home/mmlab/mbase/tdsjp/keyframe";
 //printf("<P>Scanning dir [%s]\n", $szInputDirName);
 $arDirs = collectDirsInOneDir($szInputDirName);
-
-/*
+sort($arDirs);
 
 // this code runs ONCE to generate list of keyframes for each videoID
-
+/* CHAY COMMAND LINE
 $nTotalFiles = 0;
 foreach($arDirs as $szDir)
 {
     printf("<P>Collecting files in [%s]\n", $szDir);
     $szFPDir = sprintf("%s/%s", $szInputDirName, $szDir);
 
-    //$arList = collectFilesInOneDir($szFPDir);
-    //printf("<BR>Num files: [%d]\n", size($arList));
+    $arListz = collectFilesInOneDir($szFPDir);
+    //printf("Debug here"); exit();
+    printf("<BR>Num files: [%d]\n", sizeof($arListz));
 
     $szFPOutputFN = sprintf("%s/%s.txt", $szInputDirName, $szDir);
 
-    //saveDataFromMem2File($arList, $szFPOutputFN, "wt");
-    //$nTotalFiles += count($arList);
+    saveDataFromMem2File($arListz, $szFPOutputFN, "wt");
+    $nTotalFiles += count($arListz);
 }
-//printf("<P>DONE! Total keyframes: [%d]\n", $nTotalFiles);
+printf("<P>DONE! Total keyframes: [%d]\n", $nTotalFiles);
 */
 
 // display links to annotation videoID
