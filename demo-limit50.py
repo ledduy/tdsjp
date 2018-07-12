@@ -105,11 +105,12 @@ while(True):
             if(nCount <= 100):
                 cv2.imwrite('{}/{}'.format(output_dir, output_file), frame)
 
-            cv2.imshow('Traffic Sign Detection Demo', frame)
+            #cv2.imshow('Traffic Sign Detection Demo', frame)
 
         # viewing only
         elif (cnt % nFrameSamplingRate == 0):
-            cv2.imshow('Traffic Sign Detection Demo', frame)
+            #cv2.imshow('Traffic Sign Detection Demo', frame)
+            tmpz = 111
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

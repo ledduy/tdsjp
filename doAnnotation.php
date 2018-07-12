@@ -43,24 +43,28 @@ $arDirs = collectDirsInOneDir($szInputDirName);
 sort($arDirs);
 
 // this code runs ONCE to generate list of keyframes for each videoID
-/* CHAY COMMAND LINE
-$nTotalFiles = 0;
-foreach($arDirs as $szDir)
+// CHAY COMMAND LINE
+// php -f doAnnotation.php scan
+
+if(sizeof($argv) > 1)
 {
-    printf("<P>Collecting files in [%s]\n", $szDir);
-    $szFPDir = sprintf("%s/%s", $szInputDirName, $szDir);
+    $nTotalFiles = 0;
+    foreach($arDirs as $szDir)
+    {
+        printf("<P>Collecting files in [%s]\n", $szDir);
+        $szFPDir = sprintf("%s/%s", $szInputDirName, $szDir);
 
-    $arListz = collectFilesInOneDir($szFPDir);
-    //printf("Debug here"); exit();
-    printf("<BR>Num files: [%d]\n", sizeof($arListz));
+        $arListz = collectFilesInOneDir($szFPDir);
+        //printf("Debug here"); exit();
+        printf("<BR>Num files: [%d]\n", sizeof($arListz));
 
-    $szFPOutputFN = sprintf("%s/%s.txt", $szInputDirName, $szDir);
+        $szFPOutputFN = sprintf("%s/%s.txt", $szInputDirName, $szDir);
 
-    saveDataFromMem2File($arListz, $szFPOutputFN, "wt");
-    $nTotalFiles += count($arListz);
+        saveDataFromMem2File($arListz, $szFPOutputFN, "wt");
+        $nTotalFiles += count($arListz);
+    }
+    printf("<P>DONE! Total keyframes: [%d]\n", $nTotalFiles);
 }
-printf("<P>DONE! Total keyframes: [%d]\n", $nTotalFiles);
-*/
 
 // display links to annotation videoID
 if($nAction == 0)
