@@ -1,7 +1,7 @@
 <?php
 
 # written by Duy-Dinh Le
-# last update: Jun 30, 2018
+# last update: Jul 13, 2018
 
 # update for neg-noparking and neg-noparkingx
 # update for BOOTSTRAPPING --> special treatment for neg-noparkingx - use bounding box to crop into new image
@@ -44,6 +44,7 @@ clearstatcache();
 $arLabels = array('noparking', 'neg-noparking', 'neg-noparkingx');
 $arLabelBS = array('neg-noparkingx', 'neg-noparking');
 
+# for NEG images
 $arNOTLabel = array('limit40', 'limit50', 'blueguide'); // labels that cause confusion, eg. noparking vs limit50
 
 //all videos
@@ -60,7 +61,8 @@ $arAllVideos = array('MAH00019', 'traffic_sign_video2802', 'NoStopping', 'drive'
 $arTrainVideos1 = $arAllVideos;
 
 //$szTrial = 'Train2';
-$szTrial = 'Train3';  # Jun 30 --> enrich annotations and work for all 3 traffic signs + add NoStopping
+// $szTrial = 'Train3';  # Jun 30 --> enrich annotations and work for all 3 traffic signs + add NoStopping
+$szTrial = 'Train4';  # Jul 13 --> after buggy extract-kf
 
 makeDir($szTrial);
 

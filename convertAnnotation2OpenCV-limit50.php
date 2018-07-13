@@ -1,7 +1,7 @@
 <?php
 
 # written by Duy-Dinh Le
-# last update: Jun 30, 2018
+# last update: Jul 13, 2018
 
 /*
 
@@ -49,7 +49,8 @@ $arAllVideos = array('MAH00019', 'traffic_sign_video2802', 'NoStopping', 'drive'
 $arTrainVideos1 = $arAllVideos;
 
 #$szTrial = 'Train2';
-$szTrial = 'Train3';  # Jun 30 --> enrich annotations and work for all 3 traffic signs
+//$szTrial = 'Train3';  # Jun 30 --> enrich annotations and work for all 3 traffic signs
+$szTrial = 'Train4';  # Jul 13 --> after buggy extract-kf - add annotation for VIDEOID_New
 makeDir($szTrial);
 
 $arTrainVideos = $arTrainVideos1;
