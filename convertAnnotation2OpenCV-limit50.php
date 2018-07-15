@@ -1,10 +1,12 @@
 <?php
 
 # written by Duy-Dinh Le
-# last update: Jul 13, 2018
+# last update: Jul 15, 2018
+
+// Jul 15, 2018
+// Change the annotation dir --> specific for each TrialName-SignName
 
 /*
-
 # copy annotation from server to local
 Les-MacBook-Pro:tdsjp ledi$ scp -r mmx@192.168.28.6x:/var/www/html/LabelMeAnnotationTool/Annotations ./
 */
@@ -21,15 +23,10 @@ Les-MacBook-Pro:tdsjp ledi$ scp -r mmx@192.168.28.6x:/var/www/html/LabelMeAnnota
 
 require_once "kl-IOTools.php";
 
-# copy data to tdsjp/code
-$szCmd = sprintf("cp -r /var/www/html/LabelMeAnnotationTool/Annotations ./");
-printf("%s\n", $szCmd);
-exec($szCmd);
-
-clearstatcache();
-
 ### CHANGE
 $arPOSLabels = array('limit50');
+$szTargetLabel = $arPOSLabels[0];
+
 $arNEGLabels = array('neg-limitx');
 
 $arNOTLabel = array('noparking', 'limit40', 'blueguide'); // labels that cause confusion, eg. noparking vs limit50
@@ -55,7 +52,16 @@ makeDir($szTrial);
 
 $arTrainVideos = $arTrainVideos1;
 
-$annDir = "Annotations";
+// Train4/limit50-Annotations
+$annDir = sprintf("%s/%s-Annotations", $szTrialDir, $szTargetLabel);
+makeDir($annDir);
+
+# copy data to tdsjp/code
+$szCmd = sprintf("cp -r /var/www/html/LabelMeAnnotationTool/Annotations/* %s/", $annDir);
+printf("%s\n", $szCmd);
+exec($szCmd);
+
+clearstatcache();
 
 $szKeyFrameDir = "/home/mmlab/mbase/tdsjp/keyframe";
 
