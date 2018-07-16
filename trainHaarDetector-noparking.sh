@@ -31,7 +31,7 @@ NUM_POS=1194  # exact number of pos samples
 WIDTH=30
 HEIGHT=30
 
-opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
+#opencv_createsamples  -info $POS_INPUTFILE  -num  $NUM_POS  -w $WIDTH  -h  $HEIGHT  -vec  $POS_OUTPUTFILE
 
 #exit
 #quit
@@ -50,6 +50,10 @@ BG_FILE=$TRIAL_NAME/neg-noparkingx2.dat2
 NUM_POS=1000 #
 NUM_NEG=2000 #
 NUM_STAGES=24
+
+# early stop
+NUM_STAGES=16
+
 
 MIN_HIT_RATE=0.999
 MAX_FA_RATE=0.3

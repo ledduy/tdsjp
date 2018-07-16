@@ -1,15 +1,12 @@
 # written by DuyLD
-# last update: Jun 30
+# last update: Jul 15
 
 # opencv must be installed in advance along with python
 import cv2
 import sys
 import os
 
-def detect(tds_classifier_xml, frame, gray_img, sign_name, minW=40, maxW=200):
-
-   tds_cascade = cv2.CascadeClassifier(tds_classifier_xml)
-
+def detectNew(tds_cascade, frame, gray_img, sign_name, minW=40, maxW=200):
    sign = tds_cascade.detectMultiScale(gray_img, scaleFactor=1.25, minNeighbors=3, minSize=(minW, minW), maxSize=(maxW, maxW))
    cnt = 0
    for (x,y,w,h) in sign:
@@ -45,12 +42,23 @@ video = cv2.VideoCapture(camera_url)
 
 frame_w =video.get(cv2.CAP_PROP_FRAME_WIDTH)
 frame_h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+frameCount = video.get(cv2.CAP_PROP_FRAME_COUNT)
+
 legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
 model_list = {'noparking' :
-'./Train2/noparking-DETECTOR-Train2/cascade.xml' # good performance
+#'./Train2/noparking-DETECTOR-Train2/cascade.xml' # good performance
+'./Train4/noparking-DETECTOR-Train4/cascade16.xml' # good performance
 }
+
+model_cascade = {}
+for sign_name in model_list:
+    tds_classifier_xml = model_list[sign_name]
+    print('### Classifier name: {}\n'.format(tds_classifier_xml))
+    tds_cascade = cv2.CascadeClassifier(tds_classifier_xml)
+    model_cascade[sign_name] = tds_cascade
+
 
 output_dir = './tmp'
 if not os.path.exists(output_dir):
@@ -79,6 +87,7 @@ while(True):
     cnt = cnt + 1
     frame_id = frame_id + 1
 
+    print('#### Processing frame {}/{}\n'.format(frame_id, frameCount))
     cntx +=1
     if (cntx < nSkip):
         continue
@@ -90,7 +99,7 @@ while(True):
         output_text = 'frame %d' % (frame_id)
         all_cnt = 0
         for sign_name in model_list:
-            frame, cnt_out = detect(model_list[sign_name], frame, gray_img, sign_name)
+            frame, cnt_out = detectNew(model_cascade[sign_name], frame, gray_img, sign_name)
             if (cnt_out > 0):
                 all_cnt = all_cnt + cnt_out
                 output_text = '%s - %s' % (output_text, sign_name)
@@ -105,11 +114,12 @@ while(True):
             if(nCount <= 100):
                 cv2.imwrite('{}/{}'.format(output_dir, output_file), frame)
 
-            cv2.imshow('Traffic Sign Detection Demo', frame)
+            #cv2.imshow('Traffic Sign Detection Demo', frame)
 
         # viewing only
         elif (cnt % nFrameSamplingRate == 0):
-            cv2.imshow('Traffic Sign Detection Demo', frame)
+            #cv2.imshow('Traffic Sign Detection Demo', frame)
+            tmpz = 111
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

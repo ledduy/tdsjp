@@ -1,5 +1,5 @@
 # written by DuyLD
-# last update: Jun 30
+# last update: Jul 15
 
 # opencv must be installed in advance along with python
 import cv2
@@ -42,7 +42,7 @@ video = cv2.VideoCapture(camera_url)
 
 frame_w =video.get(cv2.CAP_PROP_FRAME_WIDTH)
 frame_h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-frameCount = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+frameCount = video.get(cv2.CAP_PROP_FRAME_COUNT)
 
 legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
