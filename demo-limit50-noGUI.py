@@ -127,4 +127,4 @@ while(True):
 
 # When everything done, release the capture
 video.release()
-cv2.destroyAllWindows()
+#cv2.destroyAllWindows()
