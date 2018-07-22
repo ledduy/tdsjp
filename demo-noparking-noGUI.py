@@ -47,10 +47,9 @@ frameCount = video.get(cv2.CAP_PROP_FRAME_COUNT)
 legend_loc_x = int(frame_w*0.1)
 legend_loc_y = int(frame_h*0.1)
 
-model_list = {'limit50' :
-#'./Train2/limit50-DETECTOR-Train2/cascade.xml' # not so good performance - many false alarms - limit40
-#'./Train4/limit50-DETECTOR-Train4/cascade18.xml' # good performance
-'./Train4/limit50-DETECTOR-Train4/cascade19.xml' # to eliminate FP 20180224_01, 20180313_03
+model_list = {'noparking' :
+#'./Train2/noparking-DETECTOR-Train2/cascade.xml' # good performance
+'./Train4/noparking-DETECTOR-Train4/cascade16.xml' # good performance
 }
 
 model_cascade = {}
@@ -61,7 +60,7 @@ for sign_name in model_list:
     model_cascade[sign_name] = tds_cascade
 
 
-output_dir = './tmp/limit50'
+output_dir = './tmp/noparking'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
