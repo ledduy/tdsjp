@@ -1,7 +1,14 @@
 <?php
 
 # written by Duy-Dinh Le
-# last update: Jul 13, 2018
+# last update: Jul 20, 2018
+
+// Jul 15, 2018
+// Change the annotation dir --> specific for each TrialName-SignName
+
+// Jul 19, 2018
+// _New videos are included with new annotations
+
 
 # update for neg-noparking and neg-noparkingx
 # update for BOOTSTRAPPING --> special treatment for neg-noparkingx - use bounding box to crop into new image
@@ -33,13 +40,6 @@ Les-MacBook-Pro:tdsjp ledi$ scp -r mmx@192.168.28.6x:/var/www/html/LabelMeAnnota
 
 require_once "kl-IOTools.php";
 
-# copy data to tdsjp/code/Annotations
-$szCmd = sprintf("cp -r /var/www/html/LabelMeAnnotationTool/Annotations ./");
-printf("%s\n", $szCmd);
-exec($szCmd);
-
-clearstatcache();
-
 # focus on noparking sign
 $arLabels = array('noparking', 'neg-noparking', 'neg-noparkingx');
 $arLabelBS = array('neg-noparkingx', 'neg-noparking');
@@ -54,6 +54,12 @@ $arAllVideos = array('MAH00019', 'traffic_sign_video2802', 'NoStopping', 'drive'
 '20180321_22_ac', '20180321_21_ac', '20180321_11_hc', '20180321_12_hc', '20180321_13_hc',
 '20180321_01_iphone', '20180321_02_iphone', '20180321_03_iphone',
 '20180321_04_iphone', '20180321_05_iphone', '20180321_06_iphone',
+'MAH00019_New', 'traffic_sign_video2802_New', 'NoStopping', 'drive_New',
+'20180224_01_New', '20180224_02_New', '20180224_03_New',
+'20180306_01_New', '20180306_02_New', '20180306_03_New', '20180313_01_New', '20180313_02_New', '20180313_03_New',
+'20180321_22_ac_New', '20180321_21_ac_New', '20180321_11_hc_New', '20180321_12_hc_New', '20180321_13_hc_New',
+'20180321_01_iphone_New', '20180321_02_iphone_New', '20180321_03_iphone_New',
+'20180321_04_iphone_New', '20180321_05_iphone_New', '20180321_06_iphone_New',
 );
 
 # videos of the training set = 5
@@ -62,13 +68,24 @@ $arTrainVideos1 = $arAllVideos;
 
 //$szTrial = 'Train2';
 // $szTrial = 'Train3';  # Jun 30 --> enrich annotations and work for all 3 traffic signs + add NoStopping
-$szTrial = 'Train4';  # Jul 13 --> after buggy extract-kf
-
+// $szTrial = 'Train4';  # Jul 13 --> after buggy extract-kf
+$szTrial = 'Train4-BS10-noparking';  # Jul 19 --> after annotate more from false positives of Train4-19layers
 makeDir($szTrial);
 
 $arTrainVideos = $arTrainVideos1;
 
-$annDir = "Annotations";
+// Train4-BS10-noparking/noparking-Annotations
+$szTargetLabel = 'noparking';
+
+$annDir = sprintf("%s/%s-Annotations", $szTrial, $szTargetLabel);
+makeDir($annDir);
+
+# copy data to tdsjp/code
+$szCmd = sprintf("cp -r /var/www/html/LabelMeAnnotationTool/Annotations/* %s/", $annDir);
+printf("%s\n", $szCmd);
+exec($szCmd);
+
+clearstatcache();
 
 $szKeyFrameDir = "/home/mmlab/mbase/tdsjp/keyframe";
 
